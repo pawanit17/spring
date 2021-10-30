@@ -1,5 +1,7 @@
 # spring
 
+- Earlier versions of Spring use XML for wiring the different bean classes together.
+
 @Primary
 @Component
 @Scope("prototype")
