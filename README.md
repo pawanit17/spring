@@ -45,6 +45,8 @@ logging.level.org.springframework = debug
 - Spring Core - Basic Management of Beans
 - Spring Security - Authentication and Authorization
 - Spring MVC - For web applications
+- Spring Boot - 
+- Spring - Mainly for IOC / Dependency Injection. Testability. Achieves in loosely coupled application, which help in testing better.
 
 
 - To remove @SpringBootApplication, add @Configuration and @ComponentScan.
@@ -93,6 +95,11 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 - Starters (Web, JPA etc) help in ................
 - Externalization.
 - Actuators to understand analytics - how many times the MS is called, how many times it failed etc.
+
+- @RESTController
+- @GetMapping
+- Autoconfiguration
+  - Is implemented by an autoconiguration jar file. Ex: If SpringMVC Jar is on classpath, it configures the DispatcherServlet etc.
 
 
 
