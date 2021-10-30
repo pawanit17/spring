@@ -103,5 +103,12 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 # DevTools
 # Actuator
 
-
+# Database connection
+- JPA, JDBC and H2 database, Web ( to view H2 content ).
+## Working with H2 database
+- schema.sql shall contain all the SQL statement.
+- application.properties shall contain the following settings specific to H2 connection
+  - spring.datasource.url=jdbc:h2:mem:testdb
+  - spring.data.jpa.repositories.bootstrap-mode=default
+  - spring.h2.console.enabled=true 
 
