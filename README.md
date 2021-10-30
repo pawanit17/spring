@@ -110,5 +110,7 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 - application.properties shall contain the following settings specific to H2 connection
   - spring.datasource.url=jdbc:h2:mem:testdb
   - spring.data.jpa.repositories.bootstrap-mode=default
-  - spring.h2.console.enabled=true 
+  - spring.h2.console.enabled=true
+- BeanPropertyRowMapper
+- CommandLineRunner
 
