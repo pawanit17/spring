@@ -58,7 +58,6 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 - Add dependencies with logback / log4j and see how things work in basic Spring application.
 - 
 
-
 # Inversion of Control
 - Shifting the responsbility of creating an instance from the class that needs a dependency onto to Spring framework.
 - This is achived by @autowired and @component.
