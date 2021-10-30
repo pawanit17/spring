@@ -43,6 +43,8 @@ logging.level.org.springframework = debug
   - Context and Dependency Injection https://stackoverflow.com/a/5974145/815961
 
 - Spring Core - Basic Management of Beans
+- Spring Security - Authentication and Authorization
+- Spring MVC - For web applications
 
 
 - To remove @SpringBootApplication, add @Configuration and @ComponentScan.
@@ -88,7 +90,9 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 # SprintBoot
 - A wrapper over Spring to make development easier by including autoconfiguration, embedeed servers etc.
 - View Resolvers?. Dispatcher Servlets?.
-- Starters help in ................
+- Starters (Web, JPA etc) help in ................
+- Externalization.
+- Actuators to understand analytics - how many times the MS is called, how many times it failed etc.
 
 
 
