@@ -100,5 +100,8 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 - Autoconfiguration
   - Is implemented by an autoconiguration jar file. Ex: If SpringMVC Jar is on classpath, it configures the DispatcherServlet etc.
 
+# DevTools
+# Actuator
+
 
 
