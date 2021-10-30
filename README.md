@@ -50,15 +50,45 @@ logging.level.org.springframework = debug
 
 AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot )
 
-
-
 # To do
 - Add dependencies with logback / log4j and see how things work in basic Spring application.
 - 
 
 
+# Inversion of Control
+- Shifting the responsbility of creating an instance from the class that needs a dependency onto to Spring framework.
+- This is achived by @autowired and @component.
+- IOC Container is the part of Spring that does it.
+- This is a generic concept.
+- There are two implementations
+  - Bean Factory
+  - Application Contet
+    - Bean Factory++
+    - Spring AOP
+    - Internationalization
+    - WebApplicationContext 
+
+@Component
+ - Generic Component
+@Controller
+ - Determines a Controller in web application
+@Service
+ - Business logic
+ - BinarySearchImpl
+@Repository
+ - Database retrieval
+
+- Used for classifying the software classes.
+- Spring AOP gives more options per classification type.
 
 
+- Mockito vs JUnit
+
+
+# SprintBoot
+- A wrapper over Spring to make development easier by including autoconfiguration, embedeed servers etc.
+- View Resolvers?. Dispatcher Servlets?.
+- Starters help in ................
 
 
 
