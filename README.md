@@ -112,5 +112,12 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
   - spring.data.jpa.repositories.bootstrap-mode=default
   - spring.h2.console.enabled=true
 - BeanPropertyRowMapper
+  - Map Bean Property to Table Column name.
+  - RowMapper<Person> interface can be extended to create custom mappers. These are useful when our Bean attributes does not match Table columns.
 - CommandLineRunner
+
+ - SpringJDBC is advantageous over JDBC as it provides some default handling which JDBC does not provide. Read more on this.
+	- SpringJDBC maps SQL queries to Beans using Row Mappers. JPA maps an object to a row in the table.
+   - Question, where does Hibernate fit it?. Should be in JPA side.
+   - With JPA, we do the mapping between tables and classes and by using proper method conventions, we rely on the framework to generate the query for us.
 
