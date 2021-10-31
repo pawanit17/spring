@@ -121,3 +121,28 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
    - Question, where does Hibernate fit it?. Should be in JPA side.
    - With JPA, we do the mapping between tables and classes and by using proper method conventions, we rely on the framework to generate the query for us.
 
+@Entity
+@Id
+@GeneratedValue
+@PersistenceContext
+Schema Update Hibernate
+
+Methods on Entity Manager
+find
+merge
+remove
+	
+HQL
+JPQL
+NamedQuery
+SpringDataJPA
+JpaRepository
+	
+JDBC
+SpringJDBC
+JPA
+SpringDataJPA
+	
+	
+	
+	
