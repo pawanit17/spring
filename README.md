@@ -137,11 +137,14 @@ JPQL
 NamedQuery
 SpringDataJPA
 JpaRepository
-	
-JDBC
-SpringJDBC
-JPA
-SpringDataJPA
+
+## Spring Database Connectivity
+- JDBC
+- Hibernate
+- JdbcTemplate
+- SpringJDBC
+- JPA
+- SpringDataJPA
 	
 	
 	
