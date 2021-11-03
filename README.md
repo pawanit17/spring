@@ -146,6 +146,6 @@ JpaRepository
 - JPA
 - SpringDataJPA
 	
-	
+- Read on Maven build lifecycle.
 	
 	
