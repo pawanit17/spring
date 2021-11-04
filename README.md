@@ -62,6 +62,7 @@ class InsertionSortAlgorithm implements SortAlgorithm
   - Spring Data - For connections to databases
 
 # Annotations
+- Earlier versions of Spring use XML for wiring the different bean classes together. But now Spring uses Annotations for wiring components together.
 - Spring uses several annotations to do special processing. Annotations give special meaning to functions and classes.
 - For example, in the below code @SpringBootApplication and @Autowired give the meaning that the application is a SpringBootApplication and that the instance will be auto-writed ( instantiated by Spring and assigned ) automatically. This second part is IoC and Dependency Injection framework.
 
@@ -121,14 +122,13 @@ public class DbconnectorApplication implements CommandLineRunner
 	}
 }
 ```
-- Earlier versions of Spring use XML for wiring the different bean classes together. But now Spring uses Annotations for wiring components together.
+
 - Spring uses autowiring and component scanning to do automatic configuration - automatically wiring the dependencies.
 - Few annotations:
   - @Component tells that the Bean class is to be managed by Spring.
   - @Autowired tells Spring that it has to instantiate a matching class and assign its reference to the variable.
   - @Qualifier("bubble") / @Primary are used to tell to Spring which one to prefer for autowiring.
   - @Scope("prototype") tells that Spring has to create a new instance of the target class each time and assign it. Default is a singleton.
-  - @ComponentScan tells Spring which all packages to scan for Bean classes.
 
 ### SpringApplication
 ```
@@ -236,34 +236,65 @@ Action:
 Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
 ```
 - To solve this problem, mark one of the classes as @Primary so that Spring understands which implementation to prefer.
-- 
 
+- @ComponentScan tells Spring which all packages to scan for Bean classes.
+  - When you try to access SearchData and if it happens to be in a different directory than the class with @SpringBootApplication, then we encounter these problems below.
+``` 
+Exception in thread "main" org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.fireacademy.service.SearchData' available
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:351)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:342)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1172)
+	at com.fireacademy.SpringBasic.SpringBasicApplication.main(SpringBasicApplication.java:19)
+```
+ - Solution to this would be to update the component scan to include this additional packages as well.
+```
+@SpringBootApplication
+@ComponentScan(basePackages = "com.fireacademy.service")
+public class SpringBasicApplication
+{
+	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBasicApplication.class);
 
-    - Any subclass of Component annotation will be considered for this scan.
-    - Ex: @Component, @Service, @Controller etc. 
-    - https://stackoverflow.com/a/15925869/815961
-    - By default a SpringBootApplication annotation adds the package it is defined in to ComponentScan.
-    - So other packages would need to be added to this ComponentScan using this annotation.
-  - @Service holds the business logic / service layer.
-  - @Controller is the controller in Spring MVC.
-  - More on annotations here https://springframework.guru/spring-framework-annotations/
+	public static void main(String[] args)
+	{
+		ApplicationContext ctx = SpringApplication.run(SpringBasicApplication.class, args);
+
+		SearchData searchData = ctx.getBean(SearchData.class);
+		LOGGER.info("------>" + searchData.describeSearch());
+	}
+}
+```
+- Any subclass of Component annotation will be considered for this scan.
+  - Ex: @Component, @Service, @Controller etc. 
+  - https://stackoverflow.com/a/15925869/815961
+  - By default a SpringBootApplication annotation adds the package it is defined in to ComponentScan.
+  - So other packages would need to be added to this ComponentScan using this annotation.
+- @Service holds the business logic / service layer.
+- @Controller is the controller in Spring MVC.
+- More on annotations here https://springframework.guru/spring-framework-annotations/
 
 - @Bean vs @Component
   - https://stackoverflow.com/questions/10604298/spring-component-versus-bean
 - @Component vs @Service
   - https://stackoverflow.com/a/15925869/815961
 
-
-
 ???
 ConfigureableBeanFactory
 @Proxy
+@Configuration
 ???
 
 ## In Action
 - Any Spring project with its set of dependencies can be generated from https://start.spring.io/
 - The final build artifact can be a JAR file or a WAR file. In case of that being a JAR file, it would contain main method to help with the case of Microservices.
 - 
+
+    
+
+
+
+
+
+
 
 Bean - Singleton Bean / prototype / Request and Session
  - Bean can be put on class methods as in case of 3rd part libraries where you cant annotate the method as @Component.
