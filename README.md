@@ -280,6 +280,7 @@ public class SpringBasicApplication
 ???
 ConfigureableBeanFactory
 @Proxy
+@Bean
 @Configuration
 ???
 
