@@ -1,6 +1,7 @@
 # Introduction
 - Spring is a Java framework for building applications that talk to Database, Caches and to build REST APIs.
 - SprintBoot is a wrapper over Spring to enable faster development and has several starter classes that makes it easier to get started with building applications.
+  - SpringBoot = Spring + Auto Configuration + Embedded Servers. 
 - Spring is a Dependency Injection Framework.
   - Meaning if a class A needs to have an object of class B in it, then one way is to have Class A instantiate B, but this would put a hard dependency between the two. If a different type of Interface that B adheres to is to be plugged in, class A has to undergo a change. This is tight coupling. Another way of this is to build Class A so that it accepts an input ( either in Constructor or in its Setter ). This way A and B are isolated and have less dependency. Moreover if we want to use a different type of Interface that B adheres to, we can change it in the calling API.
 ### Tight coupling
@@ -60,6 +61,10 @@ class InsertionSortAlgorithm implements SortAlgorithm
   - Spring - Mainly for IOC / Dependency Injection. Testability. Achieves in loosely coupled application, which help in testing better.
   - Spring AOP - For Aspect Oriented Programming
   - Spring Data - For connections to databases
+- Application Context and Bean Factory are two implementations of an IOC Container.
+  - Spring recommends AC.
+  - spring-core is what Bean Factory provides - basic wiring and management of Beans
+  - Application Context includes AOP, Internationalization and WebApplicationContext etc.
 
 # Annotations
 - Earlier versions of Spring use XML for wiring the different bean classes together. But now Spring uses Annotations for wiring components together.
@@ -268,21 +273,33 @@ public class SpringBasicApplication
   - https://stackoverflow.com/a/15925869/815961
   - By default a SpringBootApplication annotation adds the package it is defined in to ComponentScan.
   - So other packages would need to be added to this ComponentScan using this annotation.
+
 - @Service holds the business logic / service layer.
+  - BubbleSortAlgorithm and QuickSortAlgorithm classes in the above instances are examples of business logic. So they can have the @Service annotation on them.
+
 - @Controller is the controller in Spring MVC.
 - More on annotations here https://springframework.guru/spring-framework-annotations/
 
+- @Bean is very generic. You can configure it to only use a single instance in an application or multiple instances in an application.
+  - This is done via @Scope("prototype") annotation or @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE).
+	- singleton - one per entire application lifetime.
+	- prototype - new instance each time.
+	- request - one per request.
+	- session - one per session.
 - @Bean vs @Component
   - https://stackoverflow.com/questions/10604298/spring-component-versus-bean
 - @Component vs @Service
   - https://stackoverflow.com/a/15925869/815961
 
 ???
-ConfigureableBeanFactory
 @Proxy
-@Bean
 @Configuration
+@Beans
 ???
+
+- Application Configuration in Spring is done using @Configuration
+- ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootLearning.class);
+- By default SpringBoot defines a ComponentScan on the class where the Configuration is present.
 
 ## In Action
 - Any Spring project with its set of dependencies can be generated from https://start.spring.io/
@@ -302,8 +319,6 @@ Bean - Singleton Bean / prototype / Request and Session
  - In this case, the custom class would be marked as @Configuration.
  - https://stackoverflow.com/a/53975920/815961
  - https://stackoverflow.com/a/40861225/815961
-Business Service
-
 
 # Reading from the properties files
 @PropertySource("classpath:app.properties")
