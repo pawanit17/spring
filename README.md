@@ -1,7 +1,8 @@
 # Introduction
 - Spring is a Java framework for building applications that talk to Database, Caches and to build REST APIs.
 - SprintBoot is a wrapper over Spring to enable faster development and has several starter classes that makes it easier to get started with building applications.
-  - SpringBoot = Spring + Auto Configuration + Embedded Servers. 
+  - SpringBoot = Spring + Auto Configuration + Embedded Servers.
+  - Without SpringBoot, developers had to choose which version of components are going to be used after confirming that these versions work well together. 
 - Spring is a Dependency Injection Framework.
   - Meaning if a class A needs to have an object of class B in it, then one way is to have Class A instantiate B, but this would put a hard dependency between the two. If a different type of Interface that B adheres to is to be plugged in, class A has to undergo a change. This is tight coupling. Another way of this is to build Class A so that it accepts an input ( either in Constructor or in its Setter ). This way A and B are isolated and have less dependency. Moreover if we want to use a different type of Interface that B adheres to, we can change it in the calling API.
 ### Tight coupling
