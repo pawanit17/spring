@@ -51,7 +51,15 @@ class InsertionSortAlgorithm implements SortAlgorithm
 }
 ```
 
-- Another term that comes up is Inversion of Control Container. This means that instead of developers creating an instance of a class, we shift the responsbility of creating an instance from the class that needs a dependency onto to Spring framework. Because this is an Inversion, we refer to it as IoC.
+- Another term that often comes up in Spring context is Inversion of Control Container. This means that instead of developers creating an instance of a class, we shift the responsbility of creating an instance from the class that needs a dependency onto to Spring framework. Because this is an Inversion, we refer to it as IoC.
+- Spring provides a container referred to as Spring Application context that creates and manages application components. These components or beans are wired together inside the Spring application context to make a complete application. This act of wiring beans together is based on a pattern called Dependency Injection ( achieved using property accessor methods or constructor arguments ).
+- Spring has several modules
+  - Spring Core - Basic Management of Beans
+  - Spring Security - Authentication and Authorization
+  - Spring MVC - For web applications
+  - Spring - Mainly for IOC / Dependency Injection. Testability. Achieves in loosely coupled application, which help in testing better.
+  - Spring AOP - For Aspect Oriented Programming
+  - Spring Data - For connections to databases
 
 # Annotations
 - Spring uses several annotations to do special processing. Annotations give special meaning to functions and classes.
@@ -113,23 +121,149 @@ public class DbconnectorApplication implements CommandLineRunner
 	}
 }
 ```
+- Earlier versions of Spring use XML for wiring the different bean classes together. But now Spring uses Annotations for wiring components together.
+- Spring uses autowiring and component scanning to do automatic configuration - automatically wiring the dependencies.
+- Few annotations:
+  - @Component tells that the Bean class is to be managed by Spring.
+  - @Autowired tells Spring that it has to instantiate a matching class and assign its reference to the variable.
+  - @Qualifier("bubble") / @Primary are used to tell to Spring which one to prefer for autowiring.
+  - @Scope("prototype") tells that Spring has to create a new instance of the target class each time and assign it. Default is a singleton.
+  - @ComponentScan tells Spring which all packages to scan for Bean classes.
 
+### SpringApplication
+```
+package com.fireacademy.SpringBasic;
 
+import com.fireacademy.SpringBasic.service.SearchData;
+import com.fireacademy.SpringBasic.service.SortAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
-- Earlier versions of Spring use XML for wiring the different bean classes together.
+@SpringBootApplication
+public class SpringBasicApplication
+{
+	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBasicApplication.class);
 
-@Primary
+	public static void main(String[] args)
+	{
+		ApplicationContext ctx = SpringApplication.run(SpringBasicApplication.class, args);
+
+		SearchData searchData = ctx.getBean(SearchData.class);
+		LOGGER.info("------>" + searchData.describeSearch());
+	}
+}
+```
+### SortAlgorithm Interface
+```
+package com.fireacademy.SpringBasic.service;
+
+import org.springframework.stereotype.Component;
+
 @Component
-@Scope("prototype")
-- ConfigureableBeanFactory
-@Autowired
-@Qualifier("bubble")
-Autowiring by name
+public interface SortAlgorithm {
+    public String describeSort();
+}
+```
+### BubbleSortAlgorithm Concerete Class
+```
+package com.fireacademy.SpringBasic.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
+public class BubbleSortAlgorithm implements SortAlgorithm
+{
+    @Override
+    public String describeSort() {
+        return "BubbleSort";
+    }
+}
+```
+### QuickSortAlgorithm Concrete Class
+```
+package com.fireacademy.SpringBasic.service;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class QuickSortAlgorithm implements SortAlgorithm
+{
+    @Override
+    public String describeSort() {
+        return "QuickSort";
+    }
+}
+```
+### SearchData Class
+```
+package com.fireacademy.SpringBasic.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SearchData
+{
+    @Autowired
+    private SortAlgorithm sortAlgorithm;
+
+    public String describeSearch()
+    {
+        return "Using " + sortAlgorithm.describeSort();
+    }
+}
+```
+- SearchData class has a Dependency on SortAlgorithm interface & its concrete classes. So we mark it as Autowired.
+- This however gives an error when the application starts up. This is because there are two implementations of SortAlgorithm and Spring does not know which one to use. 
+```
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field sortAlgorithm in com.fireacademy.SpringBasic.service.SearchData required a single bean, but 2 were found:
+	- bubbleSortAlgorithm: defined in file [D:\Development\springboot\SpringBasic\target\classes\com\fireacademy\SpringBasic\service\BubbleSortAlgorithm.class]
+	- quickSortAlgorithm: defined in file [D:\Development\springboot\SpringBasic\target\classes\com\fireacademy\SpringBasic\service\QuickSortAlgorithm.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+```
+- To solve this problem, mark one of the classes as @Primary so that Spring understands which implementation to prefer.
+- 
+
+
+    - Any subclass of Component annotation will be considered for this scan.
+    - Ex: @Component, @Service, @Controller etc. 
+    - https://stackoverflow.com/a/15925869/815961
+    - By default a SpringBootApplication annotation adds the package it is defined in to ComponentScan.
+    - So other packages would need to be added to this ComponentScan using this annotation.
+  - @Service holds the business logic / service layer.
+  - @Controller is the controller in Spring MVC.
+  - More on annotations here https://springframework.guru/spring-framework-annotations/
+
+- @Bean vs @Component
+  - https://stackoverflow.com/questions/10604298/spring-component-versus-bean
+- @Component vs @Service
+  - https://stackoverflow.com/a/15925869/815961
+
+
+
+???
+ConfigureableBeanFactory
 @Proxy
-@ComponentScan
-- By default a SpringBootApplication annotation adds the package it is defined in to ComponentScan.
-- So other packages would need to be added to this ComponentScan using this annotation.
+???
+
+## In Action
+- Any Spring project with its set of dependencies can be generated from https://start.spring.io/
+- The final build artifact can be a JAR file or a WAR file. In case of that being a JAR file, it would contain main method to help with the case of Microservices.
+- 
 
 Bean - Singleton Bean / prototype / Request and Session
  - Bean can be put on class methods as in case of 3rd part libraries where you cant annotate the method as @Component.
@@ -137,9 +271,7 @@ Bean - Singleton Bean / prototype / Request and Session
  - https://stackoverflow.com/a/53975920/815961
  - https://stackoverflow.com/a/40861225/815961
 Business Service
-Dependency Injection
-Inverstion of control
-Container / ApplicationContext
+
 
 # Reading from the properties files
 @PropertySource("classpath:app.properties")
@@ -151,18 +283,17 @@ Container / ApplicationContext
 @PreDestroy
 
 # Application.properties
-logging.level.org.springframework = debug
+- Every spring application has an application.properties file from where it reads configuration settings. This is usually in the resources folder.
+- These settings can be database connections, cache server urls or even log level monitoring etc.
+- For example, the variable ```logging.level.org.springframework = debug``` set the logging to DEBUG.
+- 
 
 # Context and Dependency Injection
 - JPA is interface, Hibernate is implentation
 - CDI is interface, Spring is implementation for Dependency Injection
   - Context and Dependency Injection https://stackoverflow.com/a/5974145/815961
 
-- Spring Core - Basic Management of Beans
-- Spring Security - Authentication and Authorization
-- Spring MVC - For web applications
-- Spring Boot - 
-- Spring - Mainly for IOC / Dependency Injection. Testability. Achieves in loosely coupled application, which help in testing better.
+
 
 
 - To remove @SpringBootApplication, add @Configuration and @ComponentScan.
