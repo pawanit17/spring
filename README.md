@@ -1,4 +1,120 @@
-# spring
+# Introduction
+- Spring is a Java framework for building applications that talk to Database, Caches and to build REST APIs.
+- SprintBoot is a wrapper over Spring to enable faster development and has several starter classes that makes it easier to get started with building applications.
+- Spring is a Dependency Injection Framework.
+  - Meaning if a class A needs to have an object of class B in it, then one way is to have Class A instantiate B, but this would put a hard dependency between the two. If a different type of Interface that B adheres to is to be plugged in, class A has to undergo a change. This is tight coupling. Another way of this is to build Class A so that it accepts an input ( either in Constructor or in its Setter ). This way A and B are isolated and have less dependency. Moreover if we want to use a different type of Interface that B adheres to, we can change it in the calling API.
+### Tight coupling
+```
+class ComplexMathSolver
+{
+	SortAlgorithm instance;
+	
+	ComplexMathSolver()
+	{
+		// Hard dependency with the concrete implementation of SortAlgorithm
+		instance = new BubbleSortAlgorithm();
+	}
+}
+
+class BubbleSortAlgorithm implements SortAlgorithm
+{
+
+}
+
+class InsertionSortAlgorithm implements SortAlgorithm
+{
+
+}
+```
+
+### Loose Coupling
+```
+class ComplexMathSolver
+{
+	SortAlgorithm instance;
+	
+	ComplexMathSolver(SortAlgorithm instance)
+	{
+		// No direct dependency with a specific implementation of SortAlgorithm
+		this.instance = instance;
+	}
+}
+
+class BubbleSortAlgorithm implements SortAlgorithm
+{
+
+}
+
+class InsertionSortAlgorithm implements SortAlgorithm
+{
+
+}
+```
+
+- Another term that comes up is Inversion of Control Container. This means that instead of developers creating an instance of a class, we shift the responsbility of creating an instance from the class that needs a dependency onto to Spring framework. Because this is an Inversion, we refer to it as IoC.
+
+# Annotations
+- Spring uses several annotations to do special processing. Annotations give special meaning to functions and classes.
+- For example, in the below code @SpringBootApplication and @Autowired give the meaning that the application is a SpringBootApplication and that the instance will be auto-writed ( instantiated by Spring and assigned ) automatically. This second part is IoC and Dependency Injection framework.
+
+```
+package com.fireacademy.dbconnector;
+
+import com.fireacademy.dbconnector.jdbc.PersonJdbcDao;
+import com.fireacademy.dbconnector.jdbc.entity.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Date;
+
+@SpringBootApplication
+public class DbconnectorApplication implements CommandLineRunner
+{
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Autowired
+	PersonJdbcDao dao;
+	public static void main(String[] args) 
+	{
+		SpringApplication.run(DbconnectorApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception 
+	{
+		// Get all data
+		logger.info("FindAll Users");
+		logger.info( "All users -> {}", dao.findAll() );
+
+		// Get select data
+		logger.info("FindById Users");
+		logger.info( "All users -> {}", dao.findById(10002) );
+
+		// Delete by ID
+		logger.info("deleteById Users");
+		logger.info( "All users -> {}", dao.deleteById(10003) );
+
+		// Post delete search
+		logger.info("After Delete FindAll Users");
+		logger.info( "All users -> {}", dao.findAll() );
+
+		// Insert
+		logger.info("Insert Pavan");
+		logger.info( "Insert Pavan -> {}", dao.insert(new Person(10005, "Pavan", "Chicago", new Date())) );
+		logger.info( "After Insert All users -> {}", dao.findAll() );
+
+		// Update
+		logger.info("Update Pavan Users");
+		logger.info( "Update Pavan -> {}", dao.update(new Person(10005, "Pavan Dittakavi", "Chicago", new Date())) );
+		logger.info( "After Update All users -> {}", dao.findAll() );
+	}
+}
+```
+
+
 
 - Earlier versions of Spring use XML for wiring the different bean classes together.
 
