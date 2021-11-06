@@ -307,7 +307,9 @@ public class SpringBasicApplication
 - The final build artifact can be a JAR file or a WAR file. In case of that being a JAR file, it would contain main method to help with the case of Microservices.
 - 
 
-    
+## REST API
+
+## Reading from databases
 
 
 
