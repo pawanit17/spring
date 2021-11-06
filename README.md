@@ -311,8 +311,34 @@ public class SpringBasicApplication
 
 ## Reading from databases
 
-### Connecting to Hibernate database
+### Spring JDBC - Connecting to H2 database
+- H2 is an in-memory database for learning more on database connectivities
+- Generate a new project using spring initializr and H2, Web and JDBC dependencies.
+- In Application.properties, configure the below entries. These are needed to enable the h2 console as well as to fix the database name.
+```
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.respositories.bootstrap-mode=default
+spring.h2.console.enabled=true
+```
+- A file in Resources could be created (schema.sql) to hold SQL instructions that are to be run each time the application is started.
+```
+create table person
+(
+   id integer not null,
+   name varchar(255) not null,
+   location varchar(255),
+   birth_date timestamp,
+   primary key(id)
+);
 
+INSERT INTO PERSON (ID, NAME, LOCATION, BIRTH_DATE )
+VALUES(10001,  'Ranga', 'Hyderabad',sysdate());
+INSERT INTO PERSON (ID, NAME, LOCATION, BIRTH_DATE )
+VALUES(10002,  'James', 'New York',sysdate());
+INSERT INTO PERSON (ID, NAME, LOCATION, BIRTH_DATE )
+VALUES(10003,  'Pieter', 'Amsterdam',sysdate());
+```
+- ![image](https://user-images.githubusercontent.com/42272776/140618987-a77e32ef-d397-458e-a98d-17c04fab9605.png)
 
 
 
