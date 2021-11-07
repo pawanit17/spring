@@ -305,9 +305,187 @@ public class SpringBasicApplication
 ## In Action
 - Any Spring project with its set of dependencies can be generated from https://start.spring.io/
 - The final build artifact can be a JAR file or a WAR file. In case of that being a JAR file, it would contain main method to help with the case of Microservices.
-- 
 
 ## REST API
+- Action needed is manifested by the HTTP Verb. GET, POST, DELETE etc.
+- Earlier web application are built in traditional modes like one servlet that handles a request.
+- Now, web applications are built using REST architectural style.
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | GET /users/1       |
+| Paragraph   | GET /users        |
+|              | POST /user |
+|    | PUT /users/1 |
+|    | DELETE /users/1 |
+|    | DELETE /users |
+|    | /user/1/messages |
+|    | /user/1/messages/5/comments |
+
+### Header Entries
+- Content-Type ( How the server should interpret the data in the HTTP body )
+  - Ex: application/json
+- Accept ( What all types can the sender/user accept )
+  - Ex: application/json
+  - Ex: application/xml 
+
+### Bare minimum REST API in SpringBoot
+- The following is a minimal implementation for a REST API 'http://localhost:8080/users'
+- Each of the HTTP verbs are mapped to a certain method.
+```
+package com.fireacademy.SpringREST.com.fireacademy.SpringRest.controllers;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("users") // http://localhost:8080/users
+public class UserController
+{
+    @GetMapping
+    public String getUser()
+    {
+        return "get user was called";
+    }
+
+    @PostMapping
+    public String createUser()
+    {
+        return "create user was called";
+    }
+
+    @PutMapping
+    public String updateUser()
+    {
+        return "update user was called";
+    }
+
+    @DeleteMapping
+    public String deleteUser()
+    {
+        return "delete user was called";
+    }
+}
+```
+
+### Path Variables
+- localhost:8080/users/17
+```
+@GetMapping(path="/{userId}")
+public String getUser(@PathVariable String userId)
+{
+    return "get user was called with userId " + userId;
+}
+```
+
+### Query String
+- localhost:8080/users?page=3&limit=50
+```
+@GetMapping
+public String getUsers(@RequestParam(value="page") int page,
+		    @RequestParam(value="limit") int limit)
+{
+    return "get user was called for page " + page + " and limit " + limit;
+}
+```
+- get user was called for page 3 and limit 50
+
+### Making the query parameters optional
+- localhost:8080/users?limit=10
+- localhost:8080/users?page=2
+```
+@GetMapping
+public String getUsers(@RequestParam(value="page", defaultValue="1") int page,
+		    @RequestParam(value="limit", defaultValue="50") int limit)
+{
+    return "get user was called for page " + page + " and limit " + limit;
+}
+```
+
+### Returning a Java Object as Reponse
+- Create a POJO class
+- Return an instance of that class during the get API call.
+```
+@GetMapping(path="/{userId}")
+public UserRest getUser(@PathVariable String userId)
+{
+	UserRest user = new UserRest();
+	user.setFirstName("Light");
+	user.setLastName("Yagami");
+	user.setEmailID("lighty@note.com");
+	return user;
+}
+```
+
+### Serving XML and JSON serialization responses
+- Add produces to convey what type it can operate on.
+- Based on the Accept HTTP Header in the Request, the return format of the server is determined.
+```
+@GetMapping(path="/{userId}", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+public UserRest getUser(@PathVariable String userId)
+{
+	UserRest user = new UserRest();
+	user.setFirstName("Light");
+	user.setLastName("Yagami");
+	user.setEmailID("lighty@note.com");
+	return user;
+}
+```
+- JSON
+```
+{
+    "firstName": "Light",
+    "lastName": "Yagami",
+    "emailID": "lighty@note.com"
+}
+```
+-XML
+```
+<UserRest>
+    <firstName>Light</firstName>
+    <lastName>Yagami</lastName>
+    <emailID>lighty@note.com</emailID>
+</UserRest>
+```
+
+### HTTP POST Request
+- Add consumes and produces to convey what type it can operate on.
+- UserDetailsRequestModel would be another POJO class to hold the POST body.
+```
+@PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},
+	 produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+public ResponseEntity<UserRest> createUser(@RequestBody UserDetailsRequestModel userDetails)
+{
+	UserRest user = new UserRest();
+	user.setFirstName(userDetails.getFirstName());
+	user.setLastName(userDetails.getLastName());
+	user.setEmailID(userDetails.getEmailID());
+	return new ResponseEntity<UserRest>(user, HttpStatus.OK);
+}
+```
+
+### Returning status code from method
+
+- To return an HTTP status code from the method, we use ResponseEntity class.
+```
+@GetMapping(path="/{userId}", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+public ResponseEntity getUser(@PathVariable String userId)
+{
+	UserRest user = new UserRest();
+	user.setFirstName("Light");
+	user.setLastName("Yagami");
+	user.setEmailID("lighty@note.com");
+	return new ResponseEntity<UserRest>(user, HttpStatus.OK);
+}
+```
+
+### Validating HTTP Post Request Body
+- Hibernate Annotations used for validation
+@NotNull
+@Email
+@Size
+
+
+
 
 ## Reading from databases
 
@@ -586,6 +764,16 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 2. Explore SpringData Jpa
 
 ## Spring MVC
+
+## Spring AOP
+- For cross cutting concerns like security, logging etc. These are not limited to a single layer alone.
+- Checks like logging, user access check can be incorporated at a single place, using @Before annotation instead of having to do the same at all the methods.
+- Combination of join point ( specific interception point ) + advice ( what to do ) is an Aspect.
+- Pointcut is the expression that is used to do matching.
+  - Pointcuts can be defined in seperate files which is useful for large projects.
+  -  @Pointcut annotation is used for this.
+- Process of adding AOP around the methods is called Weaving and the framework is called Weaver.
+- @Before ( logging, access checks etc ), @After, @AfterReturned, @AfterThrowing @Around( performance tracing ) are some relavant annotations.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
