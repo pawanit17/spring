@@ -339,10 +339,211 @@ INSERT INTO PERSON (ID, NAME, LOCATION, BIRTH_DATE )
 VALUES(10003,  'Pieter', 'Amsterdam',sysdate());
 ```
 - ![image](https://user-images.githubusercontent.com/42272776/140618987-a77e32ef-d397-458e-a98d-17c04fab9605.png)
+#### Read
+- We create a Dao class called PersonJdbcDao.java. We annotate it using @Repository. This would have JdbcTemplate autowired into it.
+- JdbcTemplate has a method called query, which is used to query the database.
+```
+package com.fireacademy.h2connector.dao;
 
+import com.fireacademy.h2connector.entities.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
+@Repository
+public class PersonJdbcDao
+{
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
+    // Select * from person;
+    public List<Person> findAll()
+    {
+        // We use a Row Mapper to map the return of query execution ( result set ) with the Person class.
+        // Because attribute values in Person and the database table match, we go with BeanPropertyRowMapper.
+        // Otherwise, we would have to work with our custom row mappers.
+        return jdbcTemplate.query("select * from person", new BeanPropertyRowMapper(Person.class));
+    }
+}
+```
+- Next comes the (entity) class Person.
+```
+package com.fireacademy.h2connector.entities;
+
+import java.util.Date;
+
+public class Person {
+    private int id;
+    private String name;
+    private String location;
+    private Date birthDate;
+
+    public int getId() {
+        return id;
+    }
+
+    // Whenever we use property mappers, we need to use the no argument constructor on that class.
+    public Person() {
+    }
+
+    @Override
+    public String toString() {
+        return "\nPerson{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
+    }
+
+    public Person(int id, String name, String location, Date birthDate) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.birthDate = birthDate;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+}
+```
+- SpringBootApplication implements CommandLineRunner. This interface has run method that can run after the SpringApplicationContext is initialized.
+```
+package com.fireacademy.h2connector;
+
+import com.fireacademy.h2connector.dao.PersonJdbcDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class H2connectorApplication implements CommandLineRunner
+{
+	private Logger logger = LoggerFactory.getLogger(H2connectorApplication.class);
+	@Autowired
+	PersonJdbcDao jdbc;
+
+	public static void main(String[] args) {
+		SpringApplication.run(H2connectorApplication.class, args);
+	}
+
+	// When the Spring Application conext starts, this run method gets invoked.
+	@Override
+	public void run(String... args) throws Exception
+	{
+		// In normal application, we would have instantiated PersonJdbcDao ourselves.
+		// Spring IoC in action here.
+		logger.info("All users -> {}", jdbc.findAll());
+	}
+}
+```
+- When compared to plain JDBC, this Spring JDBC is different.
+- We dont establish a connection ourselves, we dont write prepared statements, we dont capture result sets, close connections and handle exceptions etc.
+- Also Jdbc is not object oriented. Most ORMs are object oriented. This is the case with SpringJdbc as well.
+
+- Database CRUD in Spring JDBC.
+- **READ**
+```
+public Person findById(int id)
+{
+return (Person) jdbcTemplate.queryForObject("select * from person where id = ?",
+				    new Object[]{id},
+				    new BeanPropertyRowMapper(Person.class));
+}
+
+public List<Person> findByLocation(String location)
+{
+return jdbcTemplate.query("select * from person where location LIKE ?",
+	new Object[]{location},
+	new BeanPropertyRowMapper(Person.class));
+}
+```
+- **INSERT**
+```
+public int insert(Person person)
+{
+return jdbcTemplate.update("INSERT INTO PERSON (ID, NAME, LOCATION, BIRTH_DATE ) VALUES(?, ?, ?, ? )",
+			    new Object[]{
+				    person.getId(),
+				    person.getName(),
+				    person.getLocation(),
+				    new Timestamp(person.getBirthDate().getTime())});
+}
+```
+
+- **UPDATE**
+```
+public int update(Person person)
+{
+return jdbcTemplate.update("update person set name =?, location = ?, birth_date = ? where id = ?",
+			    new Object[]{
+				    person.getName(),
+				    person.getLocation(),
+				    new Timestamp(person.getBirthDate().getTime()),
+				    person.getId()});
+}
+```
+
+- **DELETE**
+public int deleteById(int id)
+{
+	return jdbcTemplate.update("delete from person where id = ?",
+				   new Object[]{id});
+}
+
+- **USAGE**
+```
+// In normal application, we would have instantiated PersonJdbcDao ourselves.
+// Spring IoC in action here.
+// READ
+logger.info("All users -> {}", jdbc.findAll());
+logger.info("Specific users -> {}", jdbc.findById(10003));
+logger.info("Subset users -> {}", jdbc.findByLocation("India"));
+
+// DELETE
+logger.info("Deleting users -> {}", jdbc.deleteById(10002));
+logger.info("Deleting users -> {}", jdbc.deleteById(10009));
+logger.info("All users -> {}", jdbc.findAll());
+
+// INSERT
+logger.info("Deleting users -> {}", jdbc.insert(new Person(10004, "Stephen Fleming", "New Zealand", new Date())));
+logger.info("All users -> {}", jdbc.findAll());
+
+// UPDATE
+logger.info("Deleting users -> {}", jdbc.update(new Person(10001, "Alistair Cook", "England",new Date())));
+logger.info("All users -> {}", jdbc.findAll());
+```
 
 
 Bean - Singleton Bean / prototype / Request and Session
@@ -423,7 +624,7 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 - @RESTController
 - @GetMapping
 - Autoconfiguration
-  - Is implemented by an autoconiguration jar file. Ex: If SpringMVC Jar is on classpath, it configures the DispatcherServlet etc.
+  - Is implemented by an autoconiguration jar file. Ex: If SpringMVC Jar is on classpath, it configures the DispatcherServlet. If H2 jar is on classpath, it configures connections etc.
 
 # DevTools
 # Actuator
