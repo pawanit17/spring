@@ -581,6 +581,10 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 				    new PersonRowMapper());
 }
 ```
+:memo:
+1. Explore Hibernate Jpa
+2. Explore SpringData Jpa
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Bean - Singleton Bean / prototype / Request and Session
