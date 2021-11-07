@@ -581,9 +581,11 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 				    new PersonRowMapper());
 }
 ```
-:memo:
+:memo: TODO
 1. Explore Hibernate Jpa
 2. Explore SpringData Jpa
+
+## Spring MVC
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
