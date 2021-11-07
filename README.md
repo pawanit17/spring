@@ -545,6 +545,43 @@ logger.info("Deleting users -> {}", jdbc.update(new Person(10001, "Alistair Cook
 logger.info("All users -> {}", jdbc.findAll());
 ```
 
+- When the names of the columns of the underlying database table and those of the entity class match, then there is no need to add a custom mapper class.
+  - Ex: birthDate in Java and birth_date in database.
+- In many practical cases, they do not match and so the need for a custom mapper class.
+```
+class PersonRowMapper implements RowMapper<Person>
+{
+@Override
+public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+    Person person = new Person();
+    person.setId(rs.getInt("personID"));
+    person.setName(rs.getString("personName"));
+    person.setLocation(rs.getString("personLocation"));
+    person.setBirthDate(rs.getDate("personBirthDate"));
+
+    return person;
+}
+}
+```
+- Update the exiting BeanPropertyRowMapper to use the new PersonRowMapper as shown below.
+```
+// Select * from person;
+public List<Person> findAll()
+{
+// We use a Row Mapper to map the return of query execution ( result set ) with the Person class.
+// Because attribute values in Person and the database table match, we go with BeanPropertyRowMapper.
+// Otherwise, we would have to work with our custom row mappers.
+return jdbcTemplate.query("select * from person", new PersonRowMapper());
+}
+
+public Person findById(int id)
+{
+return (Person) jdbcTemplate.queryForObject("select * from person where personID = ?",
+				    new Object[]{id},
+				    new PersonRowMapper());
+}
+```
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Bean - Singleton Bean / prototype / Request and Session
  - Bean can be put on class methods as in case of 3rd part libraries where you cant annotate the method as @Component.
