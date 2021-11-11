@@ -307,6 +307,7 @@ public class SpringBasicApplication
 - The final build artifact can be a JAR file or a WAR file. In case of that being a JAR file, it would contain main method to help with the case of Microservices.
 
 ## REST API
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 - Action needed is manifested by the HTTP Verb. GET, POST, DELETE etc.
 - Earlier web application are built in traditional modes like one servlet that handles a request.
 - Now, web applications are built using REST architectural style.
@@ -488,7 +489,7 @@ public ResponseEntity getUser(@PathVariable String userId)
 
 
 ## Reading from databases
-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Spring JDBC - Connecting to H2 database
 - H2 is an in-memory database for learning more on database connectivities
 - Generate a new project using spring initializr and H2, Web and JDBC dependencies.
@@ -763,7 +764,17 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 1. Explore Hibernate Jpa
 2. Explore SpringData Jpa
 
+## Spring Unit Testing
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@RunWith(SpringRunner.class)
+- Java Context
+@ContextConfiguration(classes=SpringApplication.class)
+- XML Context
+@ContextConfiguration(locations="/applicationContext.xml")
+
+
 ## Spring MVC
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Front controller / Dispatcher controller
 View resolver
 Architecture
@@ -852,7 +863,7 @@ AnnotationConfigApplicationContext ( Spring ) vs ApplicationContext ( SpringBoot
 - Mockito vs JUnit
 
 
-# SprintBoot
+# SpringBoot
 - A wrapper over Spring to make development easier by including autoconfiguration, embedeed servers etc.
 - View Resolvers?. Dispatcher Servlets?.
 - Starters (Web, JPA etc) help in ................
