@@ -764,6 +764,13 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 2. Explore SpringData Jpa
 
 ## Spring MVC
+Front controller / Dispatcher controller
+View resolver
+Architecture
+@Controller
+@RequestMapping(value="/login")
+@ResponseBody
+
 
 ## Spring AOP
 - For cross cutting concerns like security, logging etc. These are not limited to a single layer alone.
