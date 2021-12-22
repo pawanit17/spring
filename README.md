@@ -491,8 +491,8 @@ public ResponseEntity getUser(@PathVariable String userId)
 - The annotation @PathVariable is needed to inject the value in the URL onto the variable that is passed as input to the HTTP API method.
 - Returning a ResponseEntity over a simple POJO object is advantageous. https://stackoverflow.com/questions/49673660/return-responseentity-vs-returning-pojo
 - The class that are marked as Autowired should be known to Spring using annotations. Example, the Service class needs to be marked with @Service annotation when used in the REST API implementation class.
+- **Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/json' not supported]** comes into picture if the HTTP **Content-Type** is set to application/json and the SpringBoot method for processing the request is marked with the annotations **consumes = MediaType.APPLICATION_XML_VALUE**;
 - 
-
 
 
 ## Reading from databases
