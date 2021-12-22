@@ -486,6 +486,13 @@ public ResponseEntity getUser(@PathVariable String userId)
 @Size
 
 
+### Learnings
+- The client need to set Content-Type HTTP header set so that the server can understand how to process the body data. This is especially true for POST and PUT requests as they supply the data in the body of HTTP header.
+- The annotation @PathVariable is needed to inject the value in the URL onto the variable that is passed as input to the HTTP API method.
+- Returning a ResponseEntity over a simple POJO object is advantageous. https://stackoverflow.com/questions/49673660/return-responseentity-vs-returning-pojo
+- The class that are marked as Autowired should be known to Spring using annotations. Example, the Service class needs to be marked with @Service annotation when used in the REST API implementation class.
+- 
+
 
 
 ## Reading from databases
