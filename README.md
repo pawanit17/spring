@@ -492,7 +492,8 @@ public ResponseEntity getUser(@PathVariable String userId)
 - Returning a ResponseEntity over a simple POJO object is advantageous. https://stackoverflow.com/questions/49673660/return-responseentity-vs-returning-pojo
 - The class that are marked as Autowired should be known to Spring using annotations. Example, the Service class needs to be marked with @Service annotation when used in the REST API implementation class.
 - **Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/json' not supported]** comes into picture if the HTTP **Content-Type** is set to application/json and the SpringBoot method for processing the request is marked with the annotations **consumes = MediaType.APPLICATION_XML_VALUE**;
-- 
+- ![image](https://user-images.githubusercontent.com/42272776/147130050-fd48717c-300a-4a19-b049-9b6f660b5eea.png)
+
 
 
 ## Reading from databases
