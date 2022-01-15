@@ -780,7 +780,7 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 - @Id specifies a primary key in the database table.
 - @GeneratedValue is used to convey that the value is to be generated for the primary key.
 - EntityManager class is used to store the values in entity to the database. This is usually a DAO service.
-- The DAO service is marked as an annotation called @Repository.
+- The DAO service is marked as an annotation called @Repository. Repository is that class that interacts with the database.
 - @Transactional is used to say that each method is involved in a Transaction.
 - Objects can be saved to the database using the persist method on the EntityManager class.
 - Objects that are saved via this approach are tracked in Persistence Context.
