@@ -840,6 +840,7 @@ public class CustomerDAOService {
 }
 ```
 - Finally, we can use this DAO in a REST API using Autowiring.
+- **Create**
 ```
 @PostMapping
 public String addCustomer(@RequestBody Customer customerDetails) {
@@ -865,7 +866,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Customer x = customerRepository.save(customerDetails);
     return "Added the customer " + x.getCustomerId();
 ```
-- Get API
+- **Retrieve**
 ```
     @GetMapping("/{customerId}")
     public String searchCustomer(@PathVariable String customerId) {
@@ -875,9 +876,29 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         return "Searching for the customer " + customer.get().getCustomerName();
     }
 ```
+- **Update**
+```
+@PutMapping("/{customerId}")
+    public String updateCustomer(@PathVariable String customerId, @RequestBody Customer customerDetails) {
+
+        customerDetails.setCustomerId(Integer.parseInt(customerId));
+        Customer x = customerRepository.save(customerDetails);
+        return "Updated the customer " + x.getCustomerId();
+    }
+```
+- **Delete**
+```
+@DeleteMapping("/{customerId}")
+    public String deleteCustomer(@PathVariable String customerId) {
+
+        Integer id = Integer.parseInt(customerId);
+        customerRepository.deleteById(id);
+        return "Deleting the customer " + customerId;
+    }
+```
 
 
-#MOJO
+# Mojo
 
 - ❓How do you write custom queries?.
 - ❓How do you do join or insert across multiple tables?.
