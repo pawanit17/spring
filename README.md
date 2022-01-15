@@ -785,7 +785,70 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 - Objects can be saved to the database using the persist method on the EntityManager class.
 - Objects that are saved via this approach are tracked in Persistence Context.
 - @PersistenceContext is marked on the EntityManager class to autowire it.
-- 
+### Example
+- We first create an Entity class. Hibernate looks at the Entity classes and creates them when the application loads.
+```
+@Entity
+public class Customer {
+    public Customer(String customerName, String customerEmail, String customerBillingAddress,
+                    String customerShippingAddress, String doorNo, String streetName, String layout, String city, String pincode) {
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.customerBillingAddress = customerBillingAddress;
+        this.customerShippingAddress = customerShippingAddress;
+        this.doorNo = doorNo;
+        this.streetName = streetName;
+        this.layout = layout;
+        this.city = city;
+        this.pincode = pincode;
+    }
+
+    public Customer() {
+    }
+
+    @Id
+    @GeneratedValue
+    private int customerId;
+
+    private String customerName;
+    private String customerEmail;
+    private String customerBillingAddress;
+    private String customerShippingAddress;
+    private String doorNo;
+    private String streetName;
+    private String layout;
+    private String city;
+    private String pincode;
+    ...
+}
+```
+- Then we create a DAO class and mark it as a Repository.
+```
+@Repository
+@Transactional
+public class CustomerDAOService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public int insert(Customer customer)
+    {
+        entityManager.persist(customer);
+
+        return customer.getCustomerId();
+    }
+}
+```
+- Finally, we can use this DAO in a REST API using Autowiring.
+```
+@PostMapping
+public String addCustomer(@RequestBody Customer customerDetails) {
+
+        int id = customerDAOService.insert(customerDetails);
+        return "Added the customer " + id;
+    }
+```
+
 - ❓How do you write custom queries?.
 - ❓How do you do join or insert across multiple tables?.
 
