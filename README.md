@@ -848,6 +848,23 @@ public String addCustomer(@RequestBody Customer customerDetails) {
         return "Added the customer " + id;
     }
 ```
+- Since we have many tables, many DAO classes would need to be created.
+- One way is to create interfaces instead and use them.
+- Create an interface extending from JpaRepository.
+```
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+}
+```
+- Autowire this interface.
+```
+    @Autowired
+    CustomerRepository customerRepository;
+```
+- Proceed with using this in an REST API
+```
+    Customer x = customerRepository.save(customerDetails);
+    return "Added the customer " + x.getCustomerId();
+```
 
 - ❓How do you write custom queries?.
 - ❓How do you do join or insert across multiple tables?.
