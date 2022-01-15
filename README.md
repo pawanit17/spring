@@ -768,9 +768,29 @@ return (Person) jdbcTemplate.queryForObject("select * from person where personID
 				    new PersonRowMapper());
 }
 ```
+
+## Spring Data JPA
+- https://www.youtube.com/watch?v=MaI0_XdpdP8
+- Impedence Mismatch - The way the database stores data is not in line with how the java classes store data. Ex: Everything in JDBC world is not an object and is difficult to map it to a row. Also, JDBC is not an ORM ( Mapping objects of a class to rows of the table in database ).
+- JPA is a reference, Hibernate is the implementation.
+- JPA defines different annotations (defining entities, attributes, mapping relationships and entities etc ) and Hibernate provides the implementations for it.
+- Hibernate is an ORM framework.
+- JPA expects a default constructor in the java classes ( bean ).
+- @Entity annotation from javax.persistence is used to represent a bean as an Entity bean.
+- @Id specifies a primary key in the database table.
+- @GeneratedValue is used to convey that the value is to be generated for the primary key.
+- EntityManager class is used to store the values in entity to the database. This is usually a DAO service.
+- The DAO service is marked as an annotation called @Repository.
+- @Transactional is used to say that each method is involved in a Transaction.
+- Objects can be saved to the database using the persist method on the EntityManager class.
+- Objects that are saved via this approach are tracked in Persistence Context.
+- @PersistenceContext is marked on the EntityManager class to autowire it.
+- 
+- ❓How do you write custom queries?.
+- ❓How do you do join or insert across multiple tables?.
+
 :memo: TODO
 1. Explore Hibernate Jpa
-2. Explore SpringData Jpa
 
 ## Spring Unit Testing
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
