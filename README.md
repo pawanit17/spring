@@ -865,6 +865,19 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Customer x = customerRepository.save(customerDetails);
     return "Added the customer " + x.getCustomerId();
 ```
+- Get API
+```
+    @GetMapping("/{customerId}")
+    public String searchCustomer(@PathVariable String customerId) {
+
+        Integer id = Integer.parseInt(customerId);
+        Optional<Customer> customer = customerRepository.findById(id);
+        return "Searching for the customer " + customer.get().getCustomerName();
+    }
+```
+
+
+#MOJO
 
 - ❓How do you write custom queries?.
 - ❓How do you do join or insert across multiple tables?.
