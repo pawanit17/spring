@@ -897,6 +897,87 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     }
 ```
 
+- Customers have an address, this is 1-1 mapping.
+- So we define the 1-1 mapping as an annotation @OneToOne mapping on the owning side of the relationship.
+```
+@OneToOne( cascade = CascadeType.REMOVE, orphanRemoval = true )
+@JoinColumn(name="customerShippingAddress")
+private Address address;
+```
+- Cascade is needed so that when the Customer is deleted, the address gets deleted.
+```
+@RestController
+@RequestMapping("/api/customer")
+public class CustomerController {
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
+
+    Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<Customer> searchCustomer(@PathVariable String customerId) {
+
+        Optional<Customer> customer = customerRepository.findById(Integer.parseInt(customerId));
+        if(customer.isEmpty())
+        {
+            return new ResponseEntity<Customer>(new Customer(), HttpStatus.OK);
+        }
+        return new ResponseEntity<Customer>(customer.get(), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerRequestBody customerDetails) {
+
+        Address address = new Address(customerDetails.getDoorNo(),
+                customerDetails.getStreetName(),
+                customerDetails.getLayout(),
+                customerDetails.getCity(),
+                customerDetails.getPincode());
+
+        Customer customer = new Customer(customerDetails.getCustomerName(),
+                customerDetails.getCustomerEmail(),
+                customerDetails.getCustomerBillingAddress(),
+                address
+                );
+
+        addressRepository.save(address);
+        customerRepository.save(customer);
+        return new ResponseEntity<Customer>(customer, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{customerId}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable String customerId, @RequestBody CustomerRequestBody customerDetails) {
+
+        Address address = new Address(customerDetails.getDoorNo(),
+                customerDetails.getStreetName(),
+                customerDetails.getLayout(),
+                customerDetails.getCity(),
+                customerDetails.getPincode());
+
+        Customer customer = new Customer(customerDetails.getCustomerName(),
+                customerDetails.getCustomerEmail(),
+                customerDetails.getCustomerBillingAddress(),
+                address);
+        customer.setCustomerId(Integer.parseInt(customerId));
+
+        addressRepository.save(address);
+        customerRepository.save(customer);
+        return new ResponseEntity<Customer>(customer, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable String customerId) {
+
+        Optional<Customer> customer = customerRepository.findById(Integer.parseInt(customerId));
+        customerRepository.deleteById(Integer.parseInt(customerId));
+        return new ResponseEntity<Customer>(customer.get(), HttpStatus.OK);
+    }
+}
+```
 
 # Mojo
 
