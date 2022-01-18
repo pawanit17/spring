@@ -987,6 +987,11 @@ public class CustomerController {
 :memo: TODO
 1. Explore Hibernate Jpa
 
+## Spring Cloud
+### Spring Cloud Eureka
+- The Eureka server Microservice shall have a dependency of Eureka Server.
+- The client Microservices that need to register themselves with Eureka will have the Eureka Discovery Client dependency.
+
 ## Spring Unit Testing
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 @RunWith(SpringRunner.class)
