@@ -1003,6 +1003,14 @@ public class CustomerController {
   ```
 - The client Microservices that need to register themselves with Eureka will have the Eureka Discovery Client dependency.
   - The main Spring application should be annotated with @EnableEurekaClient.
+  ```
+  # For Eureka Registration
+  spring.application.name=ORDER-Microservice
+  eureka.client.register-with-eureka=true
+  eureka.client.fetch-registry=true
+  eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+  eureka.instance.hostname=localhost
+  ```
 
 ## Spring Unit Testing
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
