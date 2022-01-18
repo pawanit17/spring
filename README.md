@@ -990,7 +990,19 @@ public class CustomerController {
 ## Spring Cloud
 ### Spring Cloud Eureka
 - The Eureka server Microservice shall have a dependency of Eureka Server.
+  - The main Spring application should be annotated with @EnableEurekaServer.
+  - We also need to prevent the Eureka Server registering itself as client. So the following configuration is needed.
+  - application.yml file content:
+  ```
+  eureka:
+    client:
+      register-with-eureka: false
+      fetch-registry: false
+  server:
+    port: 8761
+  ```
 - The client Microservices that need to register themselves with Eureka will have the Eureka Discovery Client dependency.
+  - The main Spring application should be annotated with @EnableEurekaClient.
 
 ## Spring Unit Testing
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
