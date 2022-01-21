@@ -1064,8 +1064,8 @@ eureka:
 ```
 
 ### Hystrix
-
-
+1:13:51
+https://www.youtube.com/watch?v=tljuDMmfJz8
 
 
 
