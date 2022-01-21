@@ -1011,6 +1011,46 @@ public class CustomerController {
   eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
   eureka.instance.hostname=localhost
   ```
+  ![image](https://user-images.githubusercontent.com/42272776/150583600-ca8ce76a-d988-4a3e-b5a4-5fd9dcdc53dc.png)
+
+
+### Spring Cloud Gateway
+- Create a Spring project and add the dependencies below.
+  - Spring Boot Actuator
+  - Gateway
+  - Eureka Discovery Client
+- Add @EnableEurekaClient onto the main Java class
+- In application.yml add the below routings.
+```
+server:
+  port: 8080
+
+spring:
+  application:
+    name: Gateway-Microservice
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://ORDER-Microservice
+          predicates:
+            - Path=/api/order/**
+
+  # For Eureka Registration
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+```
+
+
+
+
+
 
 ## Spring Unit Testing
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
