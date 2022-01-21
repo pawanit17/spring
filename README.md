@@ -1035,6 +1035,22 @@ spring:
           uri: lb://ORDER-Microservice
           predicates:
             - Path=/api/order/**
+        - id: cart-service
+          uri: lb://CART-Microservice
+          predicates:
+            - Path=/api/cart/**
+        - id: inventory-service
+          uri: lb://INVENTORY-Microservice
+          predicates:
+            - Path=/api/inventory/**
+        - id: customer-service
+          uri: lb://CUSTOMER-Microservice
+          predicates:
+            - Path=/api/customer/**
+        - id: product-service
+          uri: lb://PRODUCTS-Microservice
+          predicates:
+            - Path=/api/products/**
 
   # For Eureka Registration
 eureka:
@@ -1047,6 +1063,7 @@ eureka:
     hostname: localhost
 ```
 
+### Hystrix
 
 
 
