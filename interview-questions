@@ -1,12 +1,16 @@
 - Annotations
-  - @Repository
-  - @Service
-  - @Component
+  - @Repository - A Repository is essentially a facade for persistence that uses Collection style semantics (Add, Update, Remove) to supply access to data/objects. 
+    It is a way of decoupling the way you store data/objects from the rest of the application.
+  - @Service - A service supplies coordination or other "services" that are required to operate your application. They are very different in that Services don't typically
+    know how to access data from persistence, and repositories typically only access data/objects for any services you may have.
   - ```@Controller``` - Used in Spring MVC to return a View ( HTML/CSS ) for an end user to use.
   - ```@RestController``` - Used in REST API to return an XML/JSON response to the end user. It is a combination of @Controller + @ResponseBody
+  - @ComponentScan - Simply put - @ComponentScan tells Spring in which packages you have annotated classes which should be managed by Spring. So, for example, if you have a 
+    class annotated with @Controller which is in a package which is not scanned by Spring, you will not be able to use it as Spring controller.
+  - @Component
   - @SpringBootAutoConfiguration
   - @EnableAutoConfiguration
-  - @ComponentScan
+  - @Bean
   - @Configuration
 
 - What is Dispatcher Servlet
@@ -28,6 +32,12 @@
   - Profiles help in managing different configurations for different environments. Ex: H2 database in DEV and AWS RDS in Production etc.
   - application-prd.properties / application-tst.properties etc for each of the environments.
   - And in main application.properties, all we do is add an entry like this ```spring-profiles-active=dev```. This determines the active profile that is to be used.
+
+- What is Autowiring?
+
+- What is Spring IOC?
+
+
 
 Part2:
 https://www.youtube.com/watch?v=RZNV9hi7a8w
