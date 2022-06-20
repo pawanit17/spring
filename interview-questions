@@ -27,4 +27,4 @@
 - What are Spring Profiles?
   - Profiles help in managing different configurations for different environments. Ex: H2 database in DEV and AWS RDS in Production etc.
   - application-prd.properties / application-tst.properties etc for each of the environments.
-  - And in main application.properties, all we do is add an entry like this - ```spring-profiles-active=dev```. This determines the active profile that is to be used.
+  - And in main application.properties, all we do is add an entry like this ```spring-profiles-active=dev```. This determines the active profile that is to be used.
