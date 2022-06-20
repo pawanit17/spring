@@ -1,0 +1,26 @@
+- Annotations
+  - @Repository
+  - @Service
+  - @Component
+  - ```@Controller``` - Used in Spring MVC to return a View ( HTML/CSS ) for an end user to use.
+  - ```@RestController``` - Used in REST API to return an XML/JSON response to the end user. It is a combination of @Controller + @ResponseBody
+  - @SpringBootAutoConfiguration
+  - @EnableAutoConfiguration
+  - @ComponentScan
+  - @Configuration
+
+- What is Dispatcher Servlet
+  - In SpringMVC, this is the servlet that receives Http requests and delegates it & sends the response back.
+  - 
+
+- How to change the port in SpringBoot application
+  - ```server.port=9091``` in application.properties file.
+
+- Configuring the web server type
+  - The dependency spring-boot-starter-web adds Tomcat to the SpringBoot application.
+  - Excluding this and adding the dependency spring-boot-starter-web-jetty adds jetty instead.
+
+- How to access key-value content in application.properties incode
+  - ```@Value("${server.port}")```
+    ```private String serverPort;```
+
