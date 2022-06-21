@@ -9,7 +9,7 @@
     class annotated with @Controller which is in a package which is not scanned by Spring, you will not be able to use it as Spring controller.
   - @Autowired - The instance will be auto-wired ( instantiated by Spring and assigned ) automatically. This is IoC and Dependency Injection framework.
   - @Component - Goes on class level. @Bean goes on method level.
-  - @SpringBootApplication - @Configuration, @ComponentScan, and @EnableAutoConfiguration.
+  - @SpringBootApplication - @Configuration, @ComponentScan, and @EnableAutoConfiguration. This is in org.springframework.boot.autoconfigure package.
   - @EnableAutoConfiguration - For example when there is a tomcat-embedded.jar on your classpath you likely need a TomcatEmbeddedServletContainerFactory (unless you have defined your own EmbeddedServletContainerFactory bean).
     @EnableAutoConfiguration has a exclude attribute to disable an auto-configuration explicitly otherwise we can simply exclude it from the pom.xml, 
     for example if we donot want Spring to configure the tomcat then exclude spring-bootstarter-tomcat from spring-boot-starter-web.
