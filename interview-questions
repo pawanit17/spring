@@ -53,4 +53,7 @@
   - http://localhost:8080/actuator/health
   - http://localhost:8080/actuator/beans
 
+- Bean Life Cycle
+  - @PostConstruct and @PreDestroy methods
+  - InitializingBean and DisposableBean are the interfaces and afterPropertiesSet() and destroy() are the methods.
 
