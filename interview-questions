@@ -23,6 +23,7 @@
 
 - How to change the port in SpringBoot application
   - ```server.port=9091``` in application.properties file.
+  - ```management.serer.port=9090``` is used for configuring Actuator on a different port.
 
 - Configuring the web server type
   - The dependency spring-boot-starter-web adds Tomcat to the SpringBoot application.
@@ -40,6 +41,14 @@
 - What is Autowiring?
 
 - What is Spring IOC?
+
+- What is Spring Actuator?
+  - Additional feature that helps us to monitor and manage application.
+  - Includes features like Auditing, Health and Metrics gathering.
+  - This feature can be enabled by adding the dependency spring-boot-starter-actuator.
+  - http://localhost:8080/actuator/health
+  - http://localhost:8080/actuator/beans
+
 
 
 
