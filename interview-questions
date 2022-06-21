@@ -18,11 +18,12 @@
     A bean is an object that is instantiated, assembled, and managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application.
     Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.
 
+- SpringBoot = Spring + Autoconfiguration + embedded servers.
+
 - What is the Bean Lifecycle
 
 - What is Dispatcher Servlet
   - In SpringMVC, this is the servlet that receives Http requests and delegates it & sends the response back.
-  - 
 
 - How to change the port in SpringBoot application
   - ```server.port=9091``` in application.properties file.
