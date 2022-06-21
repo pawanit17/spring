@@ -10,10 +10,11 @@
   - @Component
   - @SpringBootAutoConfiguration
   - @EnableAutoConfiguration
+  - @Configuration
   - @Bean - In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.
     A bean is an object that is instantiated, assembled, and managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application.
     Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.
-  - @Configuration
+  - @Autowired - The instance will be auto-wired ( instantiated by Spring and assigned ) automatically. This is IoC and Dependency Injection framework.
 
 - What is the Bean Lifecycle
 
@@ -23,7 +24,7 @@
 
 - How to change the port in SpringBoot application
   - ```server.port=9091``` in application.properties file.
-  - ```management.serer.port=9090``` is used for configuring Actuator on a different port.
+  - ```management.server.port=9090``` is used for configuring Actuator on a different port.
 
 - Configuring the web server type
   - The dependency spring-boot-starter-web adds Tomcat to the SpringBoot application.
