@@ -7,14 +7,14 @@
   - ```@RestController``` - Used in REST API to return an XML/JSON response to the end user. It is a combination of @Controller + @ResponseBody
   - @ComponentScan - Simply put - @ComponentScan tells Spring in which packages you have annotated classes which should be managed by Spring. So, for example, if you have a 
     class annotated with @Controller which is in a package which is not scanned by Spring, you will not be able to use it as Spring controller.
-  - @Component
-  - @SpringBootAutoConfiguration
+  - @Autowired - The instance will be auto-wired ( instantiated by Spring and assigned ) automatically. This is IoC and Dependency Injection framework.
+  - @Component - Goes on class level. @Bean goes on method level.
+  - @SpringBootApplication
   - @EnableAutoConfiguration
   - @Configuration
   - @Bean - In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.
     A bean is an object that is instantiated, assembled, and managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application.
     Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.
-  - @Autowired - The instance will be auto-wired ( instantiated by Spring and assigned ) automatically. This is IoC and Dependency Injection framework.
 
 - What is the Bean Lifecycle
 
@@ -39,9 +39,9 @@
   - application-prd.properties / application-tst.properties etc for each of the environments.
   - And in main application.properties, all we do is add an entry like this ```spring-profiles-active=dev```. This determines the active profile that is to be used.
 
-- What is Autowiring?
-
 - What is Spring IOC?
+  - Spring IOC Container is at the core of Spring Framework.
+  - Containers will create objects, wire them together, configure them, manage their lifecycle from creation till destruction.
 
 - What is Spring Actuator?
   - Additional feature that helps us to monitor and manage application.
